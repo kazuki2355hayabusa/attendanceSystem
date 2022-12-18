@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\AttendanceController;
+
 
 
 
@@ -19,11 +21,19 @@ use App\Http\Controllers\RegisteredUserController;
 Route::get('/login', [AuthenticatedController::class, 'getlogin']);
 Route::get('/register',[RegisteredUserController::class,'create']);
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+Route::get('/',[AttendanceController::class,'index']);
 Route::post('/login',[AuthenticatedController::class, 'login']);
+Route::get('/logout',[AuthenticatedController::class,'logout']);
 Route::post('/register',[RegisteredUserController::class,'store']);
+Route::post('/attendance/job_start',[AttendanceController::class,'startJob']);
+Route::post('/attendance/job_end', [AttendanceController::class, 'endJob']);
+Route::post('/attendance/break_start', [AttendanceController::class, 'startBreak']);
+Route::post('attendance/break_end',[AttendanceController::class, 'endBreak']);
+
+
 
 /*Route::get('/dashboard', function () {
     return view('dashboard');
