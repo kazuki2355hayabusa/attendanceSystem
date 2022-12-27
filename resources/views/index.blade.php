@@ -62,7 +62,7 @@
     text-align:center;
     top:50%;
   }
-  .tr1{
+  .title{
     margin-top:15px;
   }
   </style>
@@ -72,50 +72,66 @@
 <div class="container">
   <table class="stamp">
     <form method="post">
-    @csrf
-    <tr class="tr1">
-      <th colspan="2">{{$users->name}}さんお疲れ様です！</th>
-    </tr>
-    <tr>
-
-    </tr>
-    <tr>
-      <input type="hidden" name="user_id" value="{{$users->id}}">
-      @if(is_null($result))
-
-        <td><button type="submit" formaction="attendance/job_start">勤務開始</button></td>
-         <td><button type="submit" formaction="attendance/job_end" disabled>勤務終了</button></td>
+      @csrf
+      <tr class="title">
+        <th colspan="2">{{$users->name}}さんお疲れ様です！</th>
+      </tr>
+      <tr>
+        <input type="hidden" name="user_id" value="{{$users->id}}">
+        <td><button type="submit" id="job_start" formaction="attendance/job_start">勤務開始</button></td>
+         <td><button type="submit" id="job_end" formaction="attendance/job_end">勤務終了</button></td>
          <tr>
-      <td><button type="submit" formaction="attendance/break_start" disabled>休憩開始</button></td>
-      <td><button type="submit" formaction="attendance/break_end" disabled>休憩終了</button></td>
-    </tr>
-      @elseif(is_null($result['job_end_time']))
-        <td><button type="submit" formaction="attendance/job_start" disabled>勤務開始</button></td>
-        <td><button type="submit" formaction="attendance/job_end">勤務終了</button></td>
-        <tr>
-          @if(empty($result2['rest'][count($result2['rest'])-1]->break_start_time))
-            <td><button type="submit" formaction="attendance/break_start" >休憩開始</button></td>
-            <td><button type="submit" formaction="attendance/break_end" disabled>休憩終了</button></td>
-
-          @elseif(empty($result2['rest'][count($result2['rest'])-1]->break_end_time))
-           <td><button type="submit" formaction="attendance/break_start" disabled>休憩開始</button></td>
-            <td><button type="submit" formaction="attendance/break_end">休憩終了</button></td>
-            @else
-            <td><button type="submit" formaction="attendance/break_start">休憩開始</button></td>
-            <td><button type="submit" formaction="attendance/break_end" disabled>休憩終了</button></td>
-          @endif
-    </tr>
-      @else
-        <td><button type="submit" formaction="attendance/job_start" disabled>勤務開始</button></td>
-        <td><button type="submit" formaction="attendance/job_end" disabled>勤務終了</button></td>
-        <tr>
-        <td><button type="submit" formaction="attendance/break_start" disabled>休憩開始</button></td>
-        <td><button type="submit" formaction="attendance/break_end" disabled>休憩終了</button></td>
-    </tr>
-      @endif
-    </tr>
-
+        <td><button type="submit" id="break_start" formaction="attendance/break_start">休憩開始</button></td>
+        <td><button type="submit" id="break_end" formaction="attendance/break_end">休憩終了</button></td>
+      </tr>
     </form>
-</table>
+  </table>
 </div>
+  <script>
+    const attendace =  @json($attendace);
+    const rest =  @json($rest);
+    //window.alert(rest['rest'][0]);
+    //window.alert(rest['rest'][0]['break_start_time']);
+    //let el = document.body;
+    //let str = "こんにちは！";
+
+//el.textContent = rest['rest'];
+
+    var target_job_start = document.getElementById("job_start");
+    var target_job_end = document.getElementById("job_end");
+    var target_break_start = document.getElementById("break_start");
+    var target_break_end = document.getElementById("break_end");
+    if(attendace === null)
+    {
+    
+      target_job_start.disabled = false;
+      target_job_end.disabled = true;
+      target_break_start.disabled = true;
+      target_break_end.disabled = true;
+    }else if(attendace['job_end_time'] === null){
+      if(rest['rest'][rest['rest'].length-1] === undefined){
+      target_job_start.disabled = true;
+      target_job_end.disabled = false;
+      target_break_end.disabled = false;
+      target_break_end.disabled = true;
+      }else if(!(rest['rest'][rest['rest'].length-1]['break_end_time']))
+        {
+          target_job_start.disabled = true;
+          target_job_end.disabled = true;
+          target_break_start.disabled = true;
+          target_break_end.disabled = false;
+        }else{
+          target_job_start.disabled = true;
+          target_job_end.disabled = false;
+          target_break_start.disabled = false;
+          target_break_end.disabled = true;
+        }
+
+    }else{
+      target_job_start.disabled = true;
+      target_job_end.disabled = true;
+      target_break_start.disabled = true;
+      target_break_end.disabled = true;
+    }
+  </script>
 @endsection

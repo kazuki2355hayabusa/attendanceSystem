@@ -32,6 +32,7 @@ Route::post('/attendance/job_start',[AttendanceController::class,'startJob']);
 Route::post('/attendance/job_end', [AttendanceController::class, 'endJob']);
 Route::post('/attendance/break_start', [AttendanceController::class, 'startBreak']);
 Route::post('attendance/break_end',[AttendanceController::class, 'endBreak']);
+Route::get('attendance/attendance_lis',[AttendanceController::class,'getAttendanceList'],);
 
 
 

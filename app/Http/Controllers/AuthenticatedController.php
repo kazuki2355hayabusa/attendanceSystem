@@ -26,14 +26,17 @@ class AuthenticatedController extends Controller
             $users = Auth::user();
             $user_id = $users->id;
             $data = ['user'=>$users,'id'=>$user_id];
-            //dd($user_id);
-            $request->session()->put('txt',$data);
+            $request->session()->put('userData',$data);
            
 
             $date = date('Y/m/d');
-            $result = Attendace::where('date', $date)->where('user_id', $user_id)->first();
+            $attendace = Attendace::where('date', $date)->where('user_id', $user_id)->first();
+            $rest = Attendace::where('date', $date)->where('user_id', $user_id)->with('Rest')->latest('updated_at')->first();
 
-            return view('index',['users' => $users,'result' => $result]);
+
+            return view('index',['users' => $users,
+                                 'attendace' => $attendace,
+                                 'rest'=>$rest]);
 
         } else {
             $data = 'ログインに失敗しました。';

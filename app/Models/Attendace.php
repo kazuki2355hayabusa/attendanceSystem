@@ -22,6 +22,10 @@ class Attendace extends Model
         return $this->hasMany('App\Models\Rest');
 
     }
+    public function User()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 
     
 
