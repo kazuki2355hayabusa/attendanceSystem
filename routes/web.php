@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\AttendanceController;
@@ -18,13 +19,15 @@ use App\Http\Controllers\AttendanceController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/login', [AuthenticatedController::class, 'getlogin']);
-Route::get('/register',[RegisteredUserController::class,'create']);
 
+Route::get('/register',[RegisteredUserController::class,'create']);
+Route::get('/login', [AuthenticatedController::class, 'getlogin']);
+
+//Auth::routes();
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-Route::get('/',[AttendanceController::class,'index']);
+Route::get('/',[AttendanceController::class,'index'])->middleware(['auth']);
 Route::post('/login',[AuthenticatedController::class, 'login']);
 Route::get('/logout',[AuthenticatedController::class,'logout']);
 Route::post('/register',[RegisteredUserController::class,'store']);
@@ -41,4 +44,4 @@ Route::get('attendance/attendance_lis',[AttendanceController::class,'getAttendan
 })->middleware(['auth'])->name('dashboard');*/
 
 
-/*require __DIR__.'/auth.php';*/
+/*require __DIR__.'/auth.php'*;:/

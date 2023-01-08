@@ -13,7 +13,7 @@
   <h2>Atte</h2>
   <ul>
     <li><a>ホーム</a></li>
-    <li><a href="attendance/attendance_lis?flag=0">日付一覧</a></li>
+    <li><a href="attendance/attendance_lis?date={{$date}}">日付一覧</a></li>
     <li><a href="/logout">ログアウト</a></li>   
   </ul>  
 </div>

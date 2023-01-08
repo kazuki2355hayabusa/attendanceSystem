@@ -36,7 +36,8 @@ class AuthenticatedController extends Controller
 
             return view('index',['users' => $users,
                                  'attendace' => $attendace,
-                                 'rest'=>$rest]);
+                                 'rest'=>$rest,
+                                 'date'=>$date]);
 
         } else {
             $data = 'ログインに失敗しました。';
