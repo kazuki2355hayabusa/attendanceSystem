@@ -12,9 +12,9 @@
 <div class="header">
   <h2>Atte</h2>
   <ul>
-    <li><a>ホーム</a></li>
-    <li><a href="attendance/attendance_lis?date={{$date}}">日付一覧</a></li>
-    <li><a href="/logout">ログアウト</a></li>   
+    <li><a class="header_link"href="/">ホーム</a></li>
+    <li><a class="header_link" href="attendance/attendance_list?date={{$date}}">日付一覧</a></li>
+    <li><a class="header_link"href="/logout">ログアウト</a></li>   
   </ul>  
 </div>
 @yield("content")

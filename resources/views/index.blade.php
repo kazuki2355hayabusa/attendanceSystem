@@ -28,7 +28,7 @@
 
   .header{
     background-color:white;
-    height:40px;
+    height:50px;
     position:relative;
   }
     .container{

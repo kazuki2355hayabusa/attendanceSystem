@@ -1,38 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
+
+ @extends('layouts.sub_default')
+ @section('style')
+
+<link href="{{ asset('css/app.css')}}" rel="stylesheet">
+<!--<link href=".css/mybootstrap.scss" rel="stylesheet">-->
+<!--<script src="{{ asset('js/app.js') }}"></script>-->
  
   <style>
+
+
+     body{
+      margin: 0px;
+      
+
+    } 
+     h2{
+    background-color:white;
+    position:absolute;
+    top: -20px;
+    left:40px;
+  }
+  ul li{
+        display: inline-block;
+        text-align:right;
+  }
+  ul{
+    text-align:right;
+  }
+
+  .header_link{
+    font-weight:bold;
+    margin-right: 30px;
+  }
+     p{
+      text-align:center;
+    }
+
+  .header{
+    background-color:white;
+    height:50px;
+    width: .w-auto;
+    position:relative;
+  }
+   
+ 
+    .container{
+      position:relative;
+      background-color:#f2f2f2;
+      /*height: 80vh;*/
+      height: 532px;
+      width: 100vw;
+      padding-top: 20px;
+    }
+    .stamp{
+      width: 965px;
+      height: 100px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .header_t{ 
+      margin-left:auto;
+      margin-right:auto;
+      text-align:center;
+      height:45px;
+    }
+    .header_day{
+      margin:27px;
+      font-weight:bold;
+    }
     .button1{
-       width:30px;
-    height:28px;
-    background-color:#e5e5e5;
-    /*color:black;*/
-    /*border:none;*/
-    margin: 12px;
+      width:30px;
+      height:21px;
+      background-color:white;
+      color:#214bf4;
+      font-weight:bold;
+      border:1px solid #214bf4;*/
+      margin: 12px;
     }
     .pagination
     {
-      margin-top: 22rem;
+      margin-top: 16rem;
+      display: block;    
+      text-align:center;
     }
+     .fooder{
+    position:relative;
+    text-align:center;
+    font-weight: bold;
+    height:15px;
+  }
+  .fooder_c{
+    position:absolute;
+    text-align:center;
+    top:50%;
+  }
+  .title{
+    margin-top:15px;
+  }
+  th{
+    text-align:left;
+    height:50px;
+  }
+  td{
+    font-weight:540;
+  }
+  th,td{
+    border-top: 1px solid #909090;
+    /*width:220px;*/
+}
+
+
   </style> 
-  <title>Document</title>
+   @endsection
 
-</head>
-<body>
-
-  <!--<p><button class="button1" onclick="location.href='/attendance/attendance_lis?date={{$date}}&flag=1'"><</button>{{$date}}<button class="button1" onclick="location.href='/attendance/attendance_lis?date={{$date}}&flag=2'">></button></p>-->
-  <?php
-   //$date2 = $date; 
-   //str_replace('-','/',$date);
-  ?>
-  {{$date}}
-   <p><button class="button1" onclick="test('{{$date}}',0)"><</button>{{$date}}<button class="button1" onclick="test('{{$date}}',1)">></button></p>
-  <table>
+   @section("content")
+   
+   <div class="container">
+    <p class="header_t"><button class="button1" onclick="test('{{$date}}',0)"><</button><span class="header_day">{{$date}}</span><button class="button1" onclick="test('{{$date}}',1)">></button></p>
+   
+    <table class="stamp" cellspacing="0">
       <tr>
         <th>名前</th>
         <th>勤務開始</th>
@@ -59,9 +145,11 @@
       </td>
       </tr>  
       @endfor      
-  </table>
+     </table>
+     {{ $results->appends(request()->query())->links() }}
 
-      {{ $results->links() }}
+  </div>
+      
   <script>
     function test(date,flag)
     {
@@ -76,12 +164,12 @@
         var m = ("00" + (dtobj.getMonth()+1)).slice(-2);
         var d = ("00" + dtobj.getDate()).slice(-2);
         var result = y + "/" + m + "/" + d;
-        alert('aaa');
-        location.href = `/attendance/attendance_lis?date=${result}`;
-        alert(result);
+        location.href = `/attendance/attendance_list?date=${result}`;
+
 
     }
   </script>
-    
-</body>
-</html>
+
+  
+  
+  @endsection

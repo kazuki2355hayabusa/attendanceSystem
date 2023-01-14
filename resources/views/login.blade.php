@@ -54,8 +54,7 @@
   }
   p{
     text-align:center;
-    color:#a2a2a2
-;
+    color:#a2a2a2;
     font-size:11px;
     margin:0px;
   }

@@ -5,6 +5,8 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Middleware\LoginCheck;
+
 
 
 
@@ -27,15 +29,15 @@ Route::get('/login', [AuthenticatedController::class, 'getlogin']);
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-Route::get('/',[AttendanceController::class,'index'])->middleware(['auth']);
+Route::get('/',[AttendanceController::class,'index'])->middleware(LoginCheck::class);
 Route::post('/login',[AuthenticatedController::class, 'login']);
-Route::get('/logout',[AuthenticatedController::class,'logout']);
+Route::get('/logout',[AuthenticatedController::class,'logout'])->middleware(LoginCheck::class);
 Route::post('/register',[RegisteredUserController::class,'store']);
-Route::post('/attendance/job_start',[AttendanceController::class,'startJob']);
-Route::post('/attendance/job_end', [AttendanceController::class, 'endJob']);
-Route::post('/attendance/break_start', [AttendanceController::class, 'startBreak']);
-Route::post('attendance/break_end',[AttendanceController::class, 'endBreak']);
-Route::get('attendance/attendance_lis',[AttendanceController::class,'getAttendanceList'],);
+Route::post('/attendance/job_start',[AttendanceController::class,'startJob'])->middleware(LoginCheck::class);
+Route::post('/attendance/job_end', [AttendanceController::class, 'endJob'])->middleware(LoginCheck::class);
+Route::post('/attendance/break_start', [AttendanceController::class, 'startBreak'])->middleware(LoginCheck::class);
+Route::post('attendance/break_end',[AttendanceController::class, 'endBreak'])->middleware(LoginCheck::class);
+Route::get('attendance/attendance_list',[AttendanceController::class,'getAttendanceList'],)->middleware(LoginCheck::class);
 
 
 
@@ -44,4 +46,4 @@ Route::get('attendance/attendance_lis',[AttendanceController::class,'getAttendan
 })->middleware(['auth'])->name('dashboard');*/
 
 
-/*require __DIR__.'/auth.php'*;:/
+/*require __DIR__.'/auth.php';*/

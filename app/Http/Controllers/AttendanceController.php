@@ -15,8 +15,7 @@ class AttendanceController extends Controller
 {
     public function index(Request $request)
     {
-        $this->middleware('auth');
-
+        
         $userData = $request->session()->get('userData');
         $user_id = $userData['id'];
         $user = $userData['user'];
@@ -24,7 +23,7 @@ class AttendanceController extends Controller
         $attendace = Attendace::where('date', $date)->where('user_id', $user_id)->first();
         $rest = Attendace::where('date', $date)->where('user_id', $user_id)->with('Rest')->latest('updated_at')->first();
 
-        return view('index', ['users' => $user, 'attendace' => $attendace, 'rest' => $rest]);
+        return view('index', ['users' => $user, 'attendace' => $attendace, 'rest' => $rest ,'date'=>$date]);
     }
 
     public function startJob(Request $request)
@@ -98,7 +97,9 @@ class AttendanceController extends Controller
                 $date = date('Y-m-d');
             }*/
             //$date = date('Y-m-d');
-            $results = Attendace::where('date',$date)->paginate(1);
+            $results = Attendace::where('date',$date)->Paginate(1);
+            //$results2 = Attendace::Paginate(1);
+
             $job_time = 0;
             $data = [[]]; 
             //$rest_total_data = [];
@@ -124,6 +125,6 @@ class AttendanceController extends Controller
             }
             $date = strtr($date,'/','-');
 
-            return view('attendance',['results' => $results,'date'=>$date]);
+            return view('attendance',['results' => $results,'date'=>$date,]);
     }
 }
