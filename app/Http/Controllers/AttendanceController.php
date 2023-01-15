@@ -6,16 +6,11 @@ use App\Models\Attendace;
 use App\Models\Rest;
 use Illuminate\Http\Request;
 
-use Illuminate\Pagination\Paginator;
-
-
-use DateTime;
-
 class AttendanceController extends Controller
 {
     public function index(Request $request)
     {
-        
+
         $userData = $request->session()->get('userData');
         $user_id = $userData['id'];
         $user = $userData['user'];
@@ -23,7 +18,7 @@ class AttendanceController extends Controller
         $attendace = Attendace::where('date', $date)->where('user_id', $user_id)->first();
         $rest = Attendace::where('date', $date)->where('user_id', $user_id)->with('Rest')->latest('updated_at')->first();
 
-        return view('index', ['users' => $user, 'attendace' => $attendace, 'rest' => $rest ,'date'=>$date]);
+        return view('index', ['users' => $user, 'attendace' => $attendace, 'rest' => $rest, 'date' => $date]);
     }
 
     public function startJob(Request $request)
@@ -82,49 +77,35 @@ class AttendanceController extends Controller
 
     public function getAttendanceList()
     {
-            $date = $_GET["date"];
-           
+        $date = $_GET["date"];
+        $results = Attendace::where('date', $date)->Paginate(5);
 
-            /*$flag = $_GET["flag"];
-            if($flag==1){
-                $date = $_GET["date"];
-                $date = date('Y-m-d',strtotime($date." -1 day"));
-            }else if($flag==2){
-                $date = $_GET["date"];
-                $date = date('Y-m-d', strtotime($date . " +1 day"));
+        $job_time = 0;
+        $data = [[]];
+        $rest_total_data = 0;
+        $job_total = 0;
 
-            }else{
-                $date = date('Y-m-d');
-            }*/
-            //$date = date('Y-m-d');
-            $results = Attendace::where('date',$date)->Paginate(1);
-            //$results2 = Attendace::Paginate(1);
+        $i = 0;
 
-            $job_time = 0;
-            $data = [[]]; 
-            //$rest_total_data = [];
-            $rest_total_data = 0;
-            $job_total = 0;
-            
+        foreach ($results as $result_rest) {
+            $job_start_time = $result_rest->job_start_time;
+            $job_end_time = $result_rest->job_end_time;
+            $break_total = 0;
+            $job_total = (strtotime($date . $job_end_time) - strtotime($date . $job_start_time));
 
-            $i = 0;
-
-            foreach($results as $result_rest){                
-                $job_start_time = $result_rest->job_start_time;
-                $job_end_time = $result_rest->job_end_time;
-                $break_total = 0;
-                foreach($result_rest->rest  as $data){
-                        $job_total = (strtotime($date.$job_end_time) - strtotime($date.$job_start_time));
-                        $break_total = $break_total + ((strtotime($date.$data->break_end_time) - strtotime($date.$data->break_start_time)));
-                    }    
-                $job_time = gmdate('H:i:s',$job_total-$break_total);
-                $rest_total_data = gmdate('H:i:s',$break_total); 
-                $results[$i]->rest_total_data = $rest_total_data;
-                $results[$i]->job_times = $job_time;
-                $i++;
+            foreach ($result_rest->rest as $data) {
+                $break_total = $break_total + ((strtotime($date . $data->break_end_time) - strtotime($date . $data->break_start_time)));
             }
-            $date = strtr($date,'/','-');
+            
+            $job_time = gmdate('H:i:s', $job_total - $break_total);
+            $rest_total_data = gmdate('H:i:s', $break_total);
+            $results[$i]->rest_total_data = $rest_total_data;
+            $results[$i]->job_times = $job_time;
+            $i++;
+        }
+        $date_c = strtr($date, '/', '-');
+        
 
-            return view('attendance',['results' => $results,'date'=>$date,]);
+        return view('attendance', ['results' => $results, 'date' => $date_c,'date_title' =>$date]);
     }
 }

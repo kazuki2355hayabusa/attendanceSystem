@@ -1,19 +1,15 @@
 
- @extends('layouts.sub_default')
+ @extends('layouts.sub_daylist_default')
  @section('style')
 
 <link href="{{ asset('css/app.css')}}" rel="stylesheet">
-<!--<link href=".css/mybootstrap.scss" rel="stylesheet">-->
-<!--<script src="{{ asset('js/app.js') }}"></script>-->
- 
+
   <style>
 
 
      body{
       margin: 0px;
-      
-
-    } 
+    }
      h2{
     background-color:white;
     position:absolute;
@@ -42,23 +38,21 @@
     width: .w-auto;
     position:relative;
   }
-   
- 
+
+
     .container{
       position:relative;
       background-color:#f2f2f2;
-      /*height: 80vh;*/
-      height: 532px;
+      height: 480px;
       width: 100vw;
       padding-top: 20px;
     }
     .stamp{
       width: 965px;
-      height: 100px;
       margin-left:auto;
       margin-right:auto;
     }
-    .header_t{ 
+    .header_t{
       margin-left:auto;
       margin-right:auto;
       text-align:center;
@@ -69,20 +63,22 @@
       font-weight:bold;
     }
     .button1{
-      width:30px;
-      height:21px;
-      background-color:white;
-      color:#214bf4;
-      font-weight:bold;
-      border:1px solid #214bf4;*/
-      margin: 12px;
-    }
+    width:30px;
+    height:21px;
+    background-color:white;
+    color:#214bf4;
+    font-weight:bold;
+    border:1px solid #214bf4;
+    margin: 12px;
+  }
     .pagination
-    {
-      margin-top: 16rem;
-      display: block;    
-      text-align:center;
-    }
+  {
+    display: block;
+    text-align:center;
+    background-color:#f2f2f2;
+    margin-top:0px;
+    padding-bottom:12px;
+  }
      .fooder{
     position:relative;
     text-align:center;
@@ -106,18 +102,18 @@
   }
   th,td{
     border-top: 1px solid #909090;
-    /*width:220px;*/
+    height: 60px;
 }
 
 
-  </style> 
+  </style>
    @endsection
 
    @section("content")
-   
+
    <div class="container">
-    <p class="header_t"><button class="button1" onclick="test('{{$date}}',0)"><</button><span class="header_day">{{$date}}</span><button class="button1" onclick="test('{{$date}}',1)">></button></p>
-   
+    <p class="header_t"><button class="button1" onclick="test('{{$date_title}}',0)"><</button><span class="header_day">{{$date}}</span><button class="button1" onclick="test('{{$date}}',1)">></button></p>
+
     <table class="stamp" cellspacing="0">
       <tr>
         <th>名前</th>
@@ -128,10 +124,10 @@
       </tr>
       @for($i = 0;$i < count($results);$i++)
       <tr>
-       <td> 
+       <td>
         {{$results[$i]->User->name}}
       </td>
-      <td> 
+      <td>
         {{$results[$i]->job_start_time}}
       </td>
       <td>
@@ -143,33 +139,32 @@
       <td>
         {{$results[$i]->job_times}}
       </td>
-      </tr>  
-      @endfor      
+      </tr>
+      @endfor
      </table>
-     {{ $results->appends(request()->query())->links() }}
+
 
   </div>
-      
+  {{ $results->appends(request()->query())->links() }}
+
   <script>
     function test(date,flag)
     {
         var dtobj = new Date(date);
-        if(flag==0){  
+        if(flag==0){
           dtobj.setDate(dtobj.getDate() - 1);
         }else{
           dtobj.setDate(dtobj.getDate() + 1);
         }
-    
+
         var y = dtobj.getFullYear();
         var m = ("00" + (dtobj.getMonth()+1)).slice(-2);
         var d = ("00" + dtobj.getDate()).slice(-2);
         var result = y + "/" + m + "/" + d;
         location.href = `/attendance/attendance_list?date=${result}`;
-
-
     }
   </script>
 
-  
-  
+
+
   @endsection

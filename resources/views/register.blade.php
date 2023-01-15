@@ -4,10 +4,9 @@
   <style>
   body{
     margin: 0px;
-  }  
+  }
   .container{
     position:relative;
-    /*background-color:#c4ced357;*/
     background-color:#f2f2f2;
     height: 82vh;
     width: 100vw;
@@ -54,14 +53,13 @@
   }
   p{
     text-align:center;
-    color:#a2a2a2
-;
+    color:#a2a2a2;
     font-size:11px;
     margin:0px;
   }
   .header{
     background-color:white;
-    height:80px;
+    height:65px;
     position:relative;
   }
   .fooder{
@@ -80,7 +78,6 @@
   h2{
     background-color:white;
     position:absolute;
-    /*top: 15%;*/
     left:40px;
   }
   </style>
@@ -91,7 +88,7 @@
 
    <div class="card">
 
-  <form action="/register" method="POST" class="login">
+  <form action="/register" onsubmit="return false;" method="POST" class="login">
     @csrf
 
       <table class="login_t">
@@ -125,7 +122,7 @@
           <td><input type="password" name="password_confirmation" placeholder=確認用パスワード class="input"></td>
         <tr>
         </tr>
-          <td><input type="submit" value="会員登録" class="button"></td>
+          <td><input type="button" value="会員登録" class="button" onclick="submit();"></td>
         </tr>
       </table>
   </form>
@@ -134,4 +131,3 @@
   </div>
 </div>
   @endsection
-

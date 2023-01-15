@@ -1,4 +1,4 @@
-  @extends('layouts.sub_default')
+  @extends('layouts.sub_home_default')
   @section('style')
   <style>
      body{
@@ -90,20 +90,13 @@
   <script>
     const attendace =  @json($attendace);
     const rest =  @json($rest);
-    //window.alert(rest['rest'][0]);
-    //window.alert(rest['rest'][0]['break_start_time']);
-    //let el = document.body;
-    //let str = "こんにちは！";
-
-//el.textContent = rest['rest'];
-
     var target_job_start = document.getElementById("job_start");
     var target_job_end = document.getElementById("job_end");
     var target_break_start = document.getElementById("break_start");
     var target_break_end = document.getElementById("break_end");
     if(attendace === null)
     {
-    
+
       target_job_start.disabled = false;
       target_job_end.disabled = true;
       target_break_start.disabled = true;

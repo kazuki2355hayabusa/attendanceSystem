@@ -4,7 +4,7 @@
   <style>
   body{
     margin: 0px;
-  }  
+  }
   .container{
     position:relative;
     /*background-color:#c4ced357;*/
@@ -60,7 +60,7 @@
   }
   .header{
     background-color:white;
-    height:80px;
+    height:65px;
     position:relative;
   }
   .fooder{
